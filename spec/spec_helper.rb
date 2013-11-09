@@ -9,5 +9,6 @@ end
 # configure load path
 # -------------------------------------------------
 here = File.dirname(__FILE__)
-$:.unshift File.expand_path('../lib', here)
+$:.unshift File.expand_path("../lib", here)
+$:.unshift File.expand_path("../bin", here)
 $:.unshift File.dirname(__FILE__)

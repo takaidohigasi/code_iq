@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "spec_helper"
+require "analyze"
 
 describe "正常終了" do
 
@@ -15,10 +16,23 @@ describe "正常終了" do
 end
 
 describe "count_fruits" do
-  pending ここに追加
+  
+  subject{ count_fruits(input) }
+
+  context "入力が apple strawberry (melon [ apple ) のとき" do
+    let(:input){ "apple strawberry (melon [ apple )" }
+    it { should eq 4 }
+  end
+
+  context "入力が melon [ apple  のとき" do
+    let(:input){ "melon [ apple " }
+    it { should_not raise_error }
+    it { should eq 2 }
+  end
+
 end
 
 describe "create_delemeter_position_array" do
-  pending ここに追加
+  
 end
 
