@@ -2,4 +2,6 @@ h2. 本レポジトリについて
 
 code_iq応募用のレポジトリです
 
+h3. fruits_counting
 
+https://codeiq.jp/challenge.php?challenge_id=529
