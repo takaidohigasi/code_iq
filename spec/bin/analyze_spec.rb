@@ -32,6 +32,13 @@ describe "count_fruits" do
 end
 
 describe "create_delemeter_position_array" do
-  
+
+  subject{ create_delemeter_position_array(input) }
+
+  context "入力が{apple strawberry (melon [ apple )}のとき" do
+    let(:input){ "{apple strawberry (melon [ apple )}" }
+    it { should eq [ [0, 34], [18, 33]] }
+  end
+
 end
 
