@@ -48,7 +48,7 @@ end
 # @return [Fixnum] フルーツの数
 def count_fruits( str )
   # @todo あとで区切り文字は置換えられるようにする
-  str.clone.delete("[](){}").split(" ").count
+  str.clone.gsub(/[\[\]\(\)\{\}]/, " ").squeeze(" ").split(" ").count
 end
 
 
@@ -59,7 +59,7 @@ def max_fruits_num_of_line( line_str )
   max = 0
   create_delemeter_position_array( line_str ).each do |pos|
     # 区切り文字を除いた場所を指定
-    cnt = count_fruits(line_str[pos[0]+1..pos[1]-1])
+    cnt = count_fruits(line_str[pos[0]..pos[1]])
     max = cnt if cnt > max
   end
   max
