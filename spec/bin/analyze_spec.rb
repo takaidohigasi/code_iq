@@ -14,3 +14,11 @@ describe "正常終了" do
 
 end
 
+describe "count_fruits" do
+  pending ここに追加
+end
+
+describe "create_delemeter_position_array" do
+  pending ここに追加
+end
+
