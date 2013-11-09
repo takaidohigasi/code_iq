@@ -26,7 +26,6 @@ describe "count_fruits" do
 
   context "入力が melon [ apple  のとき" do
     let(:input){ "melon [ apple " }
-    it { should_not raise_error }
     it { should eq 2 }
   end
 
