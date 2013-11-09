@@ -3,7 +3,7 @@
 
 # @param ARGV[0] 入力データファイル名
 
-DELEMETERS= [  ["[", "]"], ["(", ")"], ["{", "}"] ]
+# DELEMETERS= [  ["[", "]"], ["(", ")"], ["{", "}"] ]
 
 if ARGV[0].nil?
   puts "usage: bundle exec ruby bin/analyze.rb [input file]"; exit 1
@@ -21,6 +21,7 @@ def create_delemeter_position_array( str )
 
   pos = 0
   # "[", "{", "(" の位置をベースに、区切り文字の位置を探索
+  # @note このままだと、閉じ括弧が明らかに少ない場合に性能的に不利
   while ( pos = str.index(/([\(\{\[])/, pos) ) && !pos.nil?
     # 対応する括弧を規定
     closing_parenthesis =
@@ -52,8 +53,13 @@ end
 
 File.open( ARGV[0] ) do |file|
   while line = file.gets
-    p line
-    p count_fruits( line.chomp )
+    max = 0
+    create_delemeter_position_array( line.chomp ).each do |pos|
+      # 区切り文字を除いた場所を指定
+      cnt = count_fruits(line[pos[0]+1..pos[1]-1])
+      max = cnt if cnt > max
+    end
+    p max
   end
 end
 
