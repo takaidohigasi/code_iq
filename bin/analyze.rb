@@ -14,15 +14,15 @@ unless File.exists?( ARGV[0] )
 end
 
 # 組となる区切り文字の位置の配列を返す
-# @param  [String] str 1行分の入力文字列
+# @param  [String] line_str 1行分の入力文字列
 # @return [Array] positionの配列. 例) [ [1, 2], [3, 5] ]
-def create_delemeter_position_array( str )
+def create_delemeter_position_array( line_str )
   pos_arr = []
 
   pos = 0
   # "[", "{", "(" の位置をベースに、区切り文字の位置を探索
   # @note このままだと、閉じ括弧が明らかに少ない場合に性能的に不利
-  while ( pos = str.index(/([\(\{\[])/, pos) ) && !pos.nil?
+  while ( pos = line_str.index(/([\(\{\[])/, pos) ) && !pos.nil?
     # 対応する括弧を規定
     closing_parenthesis =
       case $1
@@ -33,7 +33,7 @@ def create_delemeter_position_array( str )
         when "["
           "]"
       end
-    closing_pos = str.index(closing_parenthesis, pos)
+    closing_pos = line_str.index(closing_parenthesis, pos)
     pos_arr.push([pos, closing_pos]) unless closing_pos.nil?
 
     # 見つかった場所の次から探索を再度開始
@@ -44,22 +44,30 @@ def create_delemeter_position_array( str )
 end
 
 # 入力文字列からフルーツをカウントする
-# @param [String] 文字列. 最初と最後のdelemeterが削除されているものを想定
+# @param  [String] 文字列. 最初と最後のdelemeterが削除されているものを想定
 # @return [Fixnum] フルーツの数
 def count_fruits( str )
   # @todo あとで区切り文字は置換えられるようにする
   str.clone.delete("[](){}").split(" ").count
 end
 
+
+# 改行のないテキストの最大フルーツ数を返す
+# @param  [String] line_str 入力文字列
+# @return [Fixnum] 最大フルーツ数
+def max_fruits_num_of_line( line_str )
+  max = 0
+  create_delemeter_position_array( line_str ).each do |pos|
+    # 区切り文字を除いた場所を指定
+    cnt = count_fruits(line_str[pos[0]+1..pos[1]-1])
+    max = cnt if cnt > max
+  end
+  max
+end
+
 File.open( ARGV[0] ) do |file|
   while line = file.gets
-    max = 0
-    create_delemeter_position_array( line.chomp ).each do |pos|
-      # 区切り文字を除いた場所を指定
-      cnt = count_fruits(line[pos[0]+1..pos[1]-1])
-      max = cnt if cnt > max
-    end
-    p max
+    p max_fruits_num_of_line( line.chomp )
   end
 end
 

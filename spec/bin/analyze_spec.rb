@@ -42,3 +42,24 @@ describe "create_delemeter_position_array" do
 
 end
 
+describe "max_fruits_num_of_line" do
+
+  subject{ max_fruits_num_of_line(input) }
+
+  context "{melon (()melon strawberry)][apple}" do
+    let(:input){ "{melon (()melon strawberry)][apple}" }
+    it{ should eq 4 }
+  end
+
+  context "[apple apple }{melon](strawberry}(melon]]" do
+    let(:input){ "[apple apple }{melon](strawberry}(melon]]" }
+    it{ should eq 3 }
+  end
+
+  context "({}apple) melon strawberry{melon(apple apple) melon strawberry}" do
+    let(:input){ "({}apple) melon strawberry{melon(apple apple) melon strawberry}" }
+    it{ should eq 5 }
+  end
+
+end
+
