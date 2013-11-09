@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "正常終了" do
 
-  subject{ lambda{ `bundle exec ruby bin/analyze.rb`} }
+  subject{ lambda{ `bundle exec ruby bin/analyze.rb fruits.log`} }
   
   it { should_not raise_error }
 
