@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
-# enconding: utf-8
+# encoding: utf-8
 
 # @param ARGV[0] 入力データファイル名
 
-DELEMETERS= [ "[", "]", "(", ")", "{", "}" ]
+DELEMETERS= [  ["[", "]"], ["(", ")"], ["{", "}"] ]
 
 if ARGV[0].nil?
   puts "usage: bundle exec ruby bin/analyze.rb [input file]"; exit 1
@@ -18,6 +18,28 @@ end
 # @return [Array] positionの配列. 例) [ [1, 2], [3, 5] ]
 def create_delemeter_position_array( str )
   pos_arr = []
+
+  pos = 0
+  # "[", "{", "(" の位置をベースに、区切り文字の位置を探索
+  while ( pos = str.index(/([\(\{\[])/, pos) ) && !pos.nil?
+    # 対応する括弧を規定
+    closing_parenthesis =
+      case $1
+        when "{"
+          "}"
+        when "("
+          ")"
+        when "["
+          "]"
+      end
+    closing_pos = str.index(closing_parenthesis, pos)
+    pos_arr.push([pos, closing_pos]) unless closing_pos.nil?
+
+    # 見つかった場所の次から探索を再度開始
+    pos += 1
+  end
+
+  pos_arr
 end
 
 # 入力文字列からフルーツをカウントする
@@ -34,5 +56,4 @@ File.open( ARGV[0] ) do |file|
     p count_fruits( line.chomp )
   end
 end
-
 
